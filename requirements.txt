@@ -1,0 +1,5 @@
+soundcloud-v2
+youtube-search-python
+googlesearch-python
+pytube
+mutagen
