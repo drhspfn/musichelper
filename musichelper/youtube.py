@@ -15,7 +15,7 @@ class YouTube(metaclass=SingletonMeta):
         self.is_debug = Parameters().get_instance().debug
         self.logger:Logger = setup_logger("musichelper.youtube", level=DEBUG if self.is_debug else INFO)
         self.loop: asyncio.AbstractEventLoop = loop
-        self.logger.info("YouTube initialized")
+        self.debug("YouTube initialized")
 
     def debug(self, msg:str, *args:object):
         if self.is_debug:

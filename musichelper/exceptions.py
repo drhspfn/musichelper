@@ -40,3 +40,15 @@ class InvalidVideoId(Exception):
     def __init__(self, video_id:str) -> None:
         self.video_id:str = video_id
         super().__init__(f"Invalid YouTube video id: {video_id}")
+
+
+class APIRequestError(Exception):
+    def __init__(self, error:str="") -> None:
+        self.error:str = error
+        super().__init__(f"Error while interacting with API: {error}")
+
+class LoginError(Exception):
+    def __init__(self, error:str="") -> None:
+        self.error:str = error
+        super().__init__(f"Login error: {error}")
+

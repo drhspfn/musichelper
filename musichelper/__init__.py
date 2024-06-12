@@ -7,7 +7,7 @@ from .exceptions import NoResultsFound, ServiceUnavailable
 from .soundcloud import SoundCloud
 from .track import Track, TrackFactory
 from .youtube import YouTube
-
+from time import sleep
 
 class MusicHelper:
     def __init__(self, parameters:Parameters=None) -> None:
@@ -46,12 +46,7 @@ class MusicHelper:
             self.services["soundcloud"] = None
         else:
             try:
-                
-                self.soundcloud = SoundCloud(
-                    client_id=parameters.sc_oauth.client_id,
-                    auth_token=parameters.sc_oauth.auth_token,
-                    loop = parameters.loop
-                )
+                self.soundcloud = SoundCloud()
                 self.services["soundcloud"] = self.soundcloud
                 self.services_status["soundcloud"] = True
                 self.logger.info('[HELPER]: SoundCLoud initialization -> Service connected!')
@@ -66,12 +61,11 @@ class MusicHelper:
             self.services["deezer"] = None
         else:
             try:
-                self.deezer = Deezer(
-                    arl=parameters.deezer_arl,
-                    loop = parameters.loop
-                )
+                self.deezer = Deezer()
                 self.services["deezer"] = self.deezer
                 self.services_status["deezer"] = True
+                # parameters.loop.create_task()
+                # parameters.loop.run_in_executor(None, self.deezer.initialize)
                 self.logger.info('[HELPER]: Deezer initialization -> Service connected!')
             except Exception as e:
                 self.logger.info('[HELPER]: Deezer initialization -> Disabled, error: %s!', str(e))

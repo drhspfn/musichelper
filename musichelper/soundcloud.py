@@ -9,7 +9,7 @@ from musichelper.util import Parameters, SingletonMeta, setup_logger
 
 
 class SoundCloudAuth:
-    def __init__(self, client_id: str, auth_token: str) -> None:
+    def __init__(self, client_id: str, auth_token: str, user_agent:str=None) -> None:
         """
         Initialize SoundCloudAuth instance with client_id and auth_token.
 
@@ -20,32 +20,28 @@ class SoundCloudAuth:
         Returns:
             None: This method does not return anything.
         """
-        self.client_id = client_id
-        self.auth_token = auth_token
+        self.client_id:str = client_id
+        self.auth_token:str = auth_token
+        self.user_agent:str = user_agent
 
 
 class SoundCloud(metaclass=SingletonMeta):
-    def __init__(self, loop:asyncio.AbstractEventLoop, client_id: str = None,
-                 auth_token: str = None,
-                 user_agent: str = None) -> None:
-        self.loop:asyncio.AbstractEventLoop = loop
-        if user_agent is None:
+    def __init__(self) -> None:
+        parameters = Parameters().get_instance()
+        self.loop:asyncio.AbstractEventLoop = parameters.loop
+        if parameters.sc_oauth is not None:
             self.__soundcloud = Sound_Cloud(
-                client_id=client_id,
-                auth_token=auth_token
+                client_id=parameters.sc_oauth.client_id,
+                auth_token=parameters.sc_oauth.auth_token,
+                user_agent=parameters.sc_oauth.user_agent
             )
 
-        else:
-            self.__soundcloud = Sound_Cloud(
-                client_id=client_id,
-                auth_token=auth_token,
-                user_agent=user_agent
-            )
+    
             
         self.is_debug = Parameters().get_instance().debug
         self.logger:Logger = setup_logger("musichelper.soundcloud", level=DEBUG if self.is_debug else INFO)
         # self.debug("[SC.__init__]: The SoundCloud module has been successfully initialized")
-        self.logger.info("SoundCloud initialized")
+        self.debug("SoundCloud initialized")
         
     def debug(self, msg:str, *args:object):
         if self.is_debug:
