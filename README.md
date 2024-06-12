@@ -99,7 +99,7 @@ for result in results:
 The `service` parameter of the `search` function accepts the key of the service to be searched, but it can also accept multiple services - then the search will be performed on all services available in the list. In this case, the query limit is `distributed equally across all services`.
 
 In the case of searches from different services, it will not return a list, but a dictionary with format results:
-```json
+```python
 {
     "deezer": [<DeezerTrack object at 0x00001>, <DeezerTrack object at 0x00002>],
     "soundcloud": [<SoundCloudTrack object at 0x00003>, <SoundCloudTrack object at 0x00003>],
